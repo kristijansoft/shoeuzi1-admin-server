@@ -1,0 +1,8 @@
+# dependencies
+/node_modules
+/coverage
+
+
+# IDE related
+.idea
+.DS_Store
