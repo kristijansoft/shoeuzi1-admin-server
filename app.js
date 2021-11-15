@@ -53,13 +53,13 @@ app.use('/api/v1/shop', productController);
 
 //Without gZip
 //join public path
-// app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
-// const directory = path.join(__dirname, '/public');
-// app.use('/public', express.static(directory));
-// app.get('/*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'build', 'index.html'));
-// });
+const directory = path.join(__dirname, '/public');
+app.use('/public', express.static(directory));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 //With gZip
 app.get('*.js', function (req, res, next) {
@@ -79,13 +79,13 @@ app.get('*.css', function (req, res, next) {
 app.use(express.static('build'));
 
 //join public path
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
-const directory = path.join(__dirname, '/public');
-app.use('/public', express.static(directory));
+// const directory = path.join(__dirname, '/public');
+// app.use('/public', express.static(directory));
 
-app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, './build/index.html'));
-});
+// app.get('/*', function (req, res) {
+//   res.sendFile(path.join(__dirname, './build/index.html'));
+// });
 
 module.exports = app;
