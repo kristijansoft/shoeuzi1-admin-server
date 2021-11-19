@@ -18,6 +18,8 @@ var multer = require('multer');
 const fs = require('fs');
 const checkPermissions = require('../lib/checkPermissions');
 
+var slugify = require('slugify');
+
 // SET STORAGE
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -68,16 +70,14 @@ router.get(
             return res
               .status(httpStatus.OK)
               .send({ status: false, msg: `Server error: ${err.message}` });
-          res
-            .status(httpStatus.OK)
-            .send({
-              status: true,
-              data: records,
-              page: page,
-              per_page: limit,
-              total: count,
-              total_pages: Math.ceil(count / limit),
-            });
+          res.status(httpStatus.OK).send({
+            status: true,
+            data: records,
+            page: page,
+            per_page: limit,
+            total: count,
+            total_pages: Math.ceil(count / limit),
+          });
         });
     });
   }
@@ -204,16 +204,14 @@ router.get(
             return res
               .status(httpStatus.OK)
               .send({ status: false, msg: `Server error: ${err.message}` });
-          res
-            .status(httpStatus.OK)
-            .send({
-              status: true,
-              data: records,
-              page: page,
-              per_page: limit,
-              total: count,
-              total_pages: Math.ceil(count / limit),
-            });
+          res.status(httpStatus.OK).send({
+            status: true,
+            data: records,
+            page: page,
+            per_page: limit,
+            total: count,
+            total_pages: Math.ceil(count / limit),
+          });
         });
     });
   }
@@ -340,16 +338,14 @@ router.get(
             return res
               .status(httpStatus.OK)
               .send({ status: false, msg: `Server error: ${err.message}` });
-          res
-            .status(httpStatus.OK)
-            .send({
-              status: true,
-              data: records,
-              page: page,
-              per_page: limit,
-              total: count,
-              total_pages: Math.ceil(count / limit),
-            });
+          res.status(httpStatus.OK).send({
+            status: true,
+            data: records,
+            page: page,
+            per_page: limit,
+            total: count,
+            total_pages: Math.ceil(count / limit),
+          });
         });
     });
   }
@@ -476,16 +472,14 @@ router.get(
             return res
               .status(httpStatus.OK)
               .send({ status: false, msg: `Server error: ${err.message}` });
-          res
-            .status(httpStatus.OK)
-            .send({
-              status: true,
-              data: records,
-              page: page,
-              per_page: limit,
-              total: count,
-              total_pages: Math.ceil(count / limit),
-            });
+          res.status(httpStatus.OK).send({
+            status: true,
+            data: records,
+            page: page,
+            per_page: limit,
+            total: count,
+            total_pages: Math.ceil(count / limit),
+          });
         });
     });
   }
@@ -692,16 +686,14 @@ router.get(
           return res
             .status(httpStatus.OK)
             .send({ status: false, msg: `Server error: ${err.message}` });
-        res
-          .status(httpStatus.OK)
-          .send({
-            status: true,
-            data: records,
-            page: page,
-            per_page: limit,
-            total: count,
-            total_pages: Math.ceil(count / limit),
-          });
+        res.status(httpStatus.OK).send({
+          status: true,
+          data: records,
+          page: page,
+          per_page: limit,
+          total: count,
+          total_pages: Math.ceil(count / limit),
+        });
       });
     });
   }
@@ -743,10 +735,13 @@ router.post(
         .send({ status: false, msg: 'Invalid parameters in request' });
     }
 
+    const slug = slugify(product_name, { lower: true });
+
     //Save to Mongo
     Product.create(
       {
         product_name: product_name,
+        slug: slug,
         category_id: category_id,
         model: model,
         price: price,
@@ -770,13 +765,11 @@ router.post(
             .status(httpStatus.OK)
             .send({ status: false, msg: message });
         }
-        res
-          .status(httpStatus.OK)
-          .send({
-            status: true,
-            msg: 'Data Added Successfully!',
-            product_id: inserted._id,
-          });
+        res.status(httpStatus.OK).send({
+          status: true,
+          msg: 'Data Added Successfully!',
+          product_id: inserted._id,
+        });
       }
     );
   }
@@ -908,11 +901,14 @@ router.put(
         .send({ status: false, msg: 'Invalid parameters in request' });
     }
 
+    const slug = slugify(product_name, { lower: true });
+
     Product.findByIdAndUpdate(
       req.params.id,
       {
         $set: {
           product_name: product_name,
+          slug: slug,
           category_id: category_id,
           model: model,
           price: price,
@@ -1084,16 +1080,14 @@ router.get(
             return res
               .status(httpStatus.OK)
               .send({ status: false, msg: `Server error: ${err.message}` });
-          res
-            .status(httpStatus.OK)
-            .send({
-              status: true,
-              data: records,
-              page: page,
-              per_page: limit,
-              total: count,
-              total_pages: Math.ceil(count / limit),
-            });
+          res.status(httpStatus.OK).send({
+            status: true,
+            data: records,
+            page: page,
+            per_page: limit,
+            total: count,
+            total_pages: Math.ceil(count / limit),
+          });
         });
     });
   }
@@ -1229,16 +1223,14 @@ router.get(
             return res
               .status(httpStatus.OK)
               .send({ status: false, msg: `Server error: ${err.message}` });
-          res
-            .status(httpStatus.OK)
-            .send({
-              status: true,
-              data: records,
-              page: page,
-              per_page: limit,
-              total: count,
-              total_pages: Math.ceil(count / limit),
-            });
+          res.status(httpStatus.OK).send({
+            status: true,
+            data: records,
+            page: page,
+            per_page: limit,
+            total: count,
+            total_pages: Math.ceil(count / limit),
+          });
         });
     });
   }
@@ -1400,16 +1392,14 @@ router.get(
             return res
               .status(httpStatus.OK)
               .send({ status: false, msg: `Server error: ${err.message}` });
-          res
-            .status(httpStatus.OK)
-            .send({
-              status: true,
-              data: records,
-              page: page,
-              per_page: limit,
-              total: count,
-              total_pages: Math.ceil(count / limit),
-            });
+          res.status(httpStatus.OK).send({
+            status: true,
+            data: records,
+            page: page,
+            per_page: limit,
+            total: count,
+            total_pages: Math.ceil(count / limit),
+          });
         });
     });
   }
@@ -1536,16 +1526,14 @@ router.get(
             return res
               .status(httpStatus.OK)
               .send({ status: false, msg: `Server error: ${err.message}` });
-          res
-            .status(httpStatus.OK)
-            .send({
-              status: true,
-              data: records,
-              page: page,
-              per_page: limit,
-              total: count,
-              total_pages: Math.ceil(count / limit),
-            });
+          res.status(httpStatus.OK).send({
+            status: true,
+            data: records,
+            page: page,
+            per_page: limit,
+            total: count,
+            total_pages: Math.ceil(count / limit),
+          });
         });
     });
   }
@@ -1763,16 +1751,14 @@ router.get(
           return res
             .status(httpStatus.OK)
             .send({ status: false, msg: `Server error: ${err.message}` });
-        res
-          .status(httpStatus.OK)
-          .send({
-            status: true,
-            data: records,
-            page: page,
-            per_page: limit,
-            total: count,
-            total_pages: Math.ceil(count / limit),
-          });
+        res.status(httpStatus.OK).send({
+          status: true,
+          data: records,
+          page: page,
+          per_page: limit,
+          total: count,
+          total_pages: Math.ceil(count / limit),
+        });
       });
     });
   }
