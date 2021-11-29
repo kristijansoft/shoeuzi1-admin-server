@@ -51,6 +51,10 @@ app.use('/api/v1/admin', exampleController);
 const productController = require('controllers/shop/productController');
 app.use('/api/v1/shop', productController);
 
+/* Front-end Shop API */
+const checkoutController = require('controllers/shop/checkoutController');
+app.use('/api/v1/payment', checkoutController);
+
 //Without gZip
 //join public path
 app.use(express.static(path.join(__dirname, 'public')));
