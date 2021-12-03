@@ -1,10 +1,20 @@
 const express = require('express');
-const { Mongoose } = require('mongoose');
+const mongoose = require('mongoose');
 const router = express.Router();
 let path = require('path');
 const httpStatus = require('../../lib/httpStatus');
 const Product = require('../../models/Product');
 const Blog = require('../../models/Blog');
+const Order = require('../../models/Order');
+
+const isCouldbeObjectId = (str) => {
+  if (typeof str === 'string') {
+    return /^[a-f\d]{24}$/i.test(str);
+  } else if (Array.isArray(str)) {
+    return str.every((arrStr) => /^[a-f\d]{24}$/i.test(arrStr));
+  }
+  return false;
+};
 
 /* Get products */
 router.get('/products/:category', [], function (req, res, next) {
@@ -173,6 +183,37 @@ router.get('/blog/get', [], function (req, res, next) {
           .status(httpStatus.OK)
           .send({ status: false, msg: `Server error: ${err.message}` });
       console.log('exec');
+      res.status(httpStatus.OK).send({
+        status: true,
+        data: records,
+      });
+    });
+  } else {
+    return res
+      .status(httpStatus.OK)
+      .send({ status: false, msg: `Query error:` });
+  }
+});
+
+/* Get Order by username */
+router.get('/orders/get', [], function (req, res, next) {
+  let userId = req.query.userid;
+  if (!userId)
+    return res
+      .status(httpStatus.OK)
+      .send({ status: false, msg: `Id is required.` });
+  if (userId && isCouldbeObjectId(userId)) {
+    Order.aggregate([
+      {
+        $match: {
+          customer_id: mongoose.Types.ObjectId(userId),
+        },
+      },
+    ]).exec(function (err, records) {
+      if (err)
+        return res
+          .status(httpStatus.OK)
+          .send({ status: false, msg: `Server error: ${err.message}` });
       res.status(httpStatus.OK).send({
         status: true,
         data: records,
