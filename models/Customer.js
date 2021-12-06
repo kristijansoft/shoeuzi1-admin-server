@@ -37,6 +37,46 @@ const customerSchema = new Schema(
       type: String,
       trim: true,
     },
+    billing_first_name: {
+      required: true,
+      type: String,
+      maxlength: 255,
+      trim: true,
+    },
+    billing_last_name: {
+      required: true,
+      type: String,
+      maxlength: 255,
+      trim: true,
+    },
+    billing_company: {
+      required: false,
+      type: String,
+      trim: true,
+    },
+    billing_address1: {
+      required: true,
+      type: String,
+    },
+    billing_address2: {
+      type: String,
+    },
+    billing_city: {
+      required: true,
+      type: String,
+      maxlength: 255,
+      trim: true,
+    },
+    billing_post_code: {
+      required: true,
+      type: String,
+      maxlength: 255,
+      trim: true,
+    },
+    billing_country_id: {
+      required: true,
+      type: mongoose.Schema.Types.ObjectId,
+    },
     isActive: {
       type: Boolean,
       required: true,

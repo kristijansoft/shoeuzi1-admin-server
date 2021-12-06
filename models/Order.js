@@ -2,146 +2,141 @@ const mongoose = require('mongoose');
 mongoose.set('useFindAndModify', false);
 const Schema = mongoose.Schema;
 
-const orderSchema = new Schema({
+const orderSchema = new Schema(
+  {
     order_id: {
-        type: String,
-        unique: true
+      type: String,
+      unique: true,
     },
     customer_id: {
-        required: true,
-        type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      type: mongoose.Schema.Types.ObjectId,
     },
     currency_id: {
-        required: true,
-        type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      type: mongoose.Schema.Types.ObjectId,
     },
     orderItems: {
-        required: true,
-        type: Array
+      required: true,
+      type: Array,
     },
     pfirst_name: {
-        required: true,
-        type: String,
-        maxlength: 255,
-        trim: true
+      required: true,
+      type: String,
+      maxlength: 255,
+      trim: true,
     },
     plast_name: {
-        required: true,
-        type: String,
-        maxlength: 255,
-        trim: true
+      required: true,
+      type: String,
+      maxlength: 255,
+      trim: true,
     },
     pcompany: {
-        required: false,
-        type: String,
-        trim: true
+      required: false,
+      type: String,
+      trim: true,
     },
     paddress1: {
-        required: true,
-        type: String,
+      required: true,
+      type: String,
     },
     paddress2: {
-        type: String,
+      type: String,
     },
     pcity: {
-        required: true,
-        type: String,
-        maxlength: 255,
-        trim: true
+      required: true,
+      type: String,
+      maxlength: 255,
+      trim: true,
     },
     ppost_code: {
-        required: true,
-        type: String,
-        maxlength: 255,
-        trim: true
+      required: true,
+      type: String,
+      maxlength: 255,
+      trim: true,
     },
     pcountry_id: {
-        required: true,
-        type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      type: mongoose.Schema.Types.ObjectId,
     },
     sfirst_name: {
-        required: true,
-        type: String,
-        maxlength: 255,
-        trim: true
+      type: String,
+      maxlength: 255,
+      trim: true,
     },
     slast_name: {
-        required: true,
-        type: String,
-        maxlength: 255,
-        trim: true
+      type: String,
+      maxlength: 255,
+      trim: true,
     },
     scompany: {
-        type: String,
-        trim: true
+      type: String,
+      trim: true,
     },
     saddress1: {
-        required: true,
-        type: String,
+      type: String,
     },
     saddress2: {
-        type: String,
+      type: String,
     },
     scity: {
-        required: true,
-        type: String,
-        maxlength: 255,
-        trim: true
+      type: String,
+      maxlength: 255,
+      trim: true,
     },
     spost_code: {
-        required: true,
-        type: String,
-        maxlength: 255,
-        trim: true
+      type: String,
+      maxlength: 255,
+      trim: true,
     },
     scountry_id: {
-        required: true,
-        type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
     },
     order_statuses_id: {
-        required: true,
-        type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      type: mongoose.Schema.Types.ObjectId,
     },
     payment_method: {
-        required: true,
-        type: String
+      required: true,
+      type: String,
     },
     comment: {
-        type: String
+      type: String,
     },
     coupon_id: {
-        type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
     },
     coupon: {
-        type: String
+      type: String,
     },
     couponDiscount: {
-        type: String
+      type: String,
     },
     couponType: {
-        type: String
+      type: String,
     },
     shipping_cost: {
-        type: Number
+      type: Number,
     },
     est_delivery_date: {
-        type: Date
+      type: Date,
     },
     total_amount: {
-        type: String
+      type: String,
     },
     grand_total: {
-        type: String,
+      type: String,
     },
     status: {
-        type: Boolean,
-        default: true
-    }
-},
-    {
-        timestamps: true
-    });
-
+      type: Boolean,
+      default: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
 orderSchema.set('toJSON', { virtuals: true });
 

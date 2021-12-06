@@ -57,9 +57,18 @@ router.post('/customerLogin', function (req, res) {
                 msg: 'successfully login',
                 token: signedToken,
                 userData: {
+                  _id: customer._id,
                   first_name: customer.first_name,
                   last_name: customer.last_name,
                   email: customer.email,
+                  billing_first_name: customer.billing_first_name,
+                  billing_last_name: customer.billing_last_name,
+                  billing_company: customer.billing_company,
+                  billing_address1: customer.billing_address1,
+                  billing_address2: customer.billing_address2,
+                  billing_city: customer.billing_city,
+                  billing_post_code: customer.billing_post_code,
+                  billing_country_id: customer.billing_country_id,
                   profileImage: customer.profileImage,
                 },
               });

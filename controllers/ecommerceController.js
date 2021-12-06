@@ -1927,7 +1927,6 @@ router.put(
       !est_delivery_date &&
       !grand_total &&
       !total_amount &&
-      !coupon_id &&
       !payment_method
     ) {
       return res
@@ -1981,7 +1980,7 @@ router.put(
         for (let p = 0; p < oldItemsArr.length; p++) {
           Product.findByIdAndUpdate(
             oldItemsArr[p]._id,
-            { $inc: { quantity: oldItemsArr[p].orderQuantity } },
+            { $inc: { quantity: oldItemsArr[p].quantity } },
             { new: false },
             function (err, data) {
               if (err)

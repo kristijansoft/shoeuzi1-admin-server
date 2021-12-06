@@ -226,4 +226,121 @@ router.get('/orders/get', [], function (req, res, next) {
   }
 });
 
+/* Save order after charge */
+router.post('/orders/save', [], function (req, res) {
+  const {
+    customer_id,
+    currency_id,
+    orderItems,
+    pfirst_name,
+    plast_name,
+    pcompany,
+    paddress1,
+    paddress2,
+    pcity,
+    ppost_code,
+    pcountry_id,
+    sfirst_name,
+    slast_name,
+    scompany,
+    saddress1,
+    saddress2,
+    scity,
+    spost_code,
+    scountry_id,
+    payment_method,
+    order_statuses_id,
+    comment,
+    coupon,
+    coupon_id,
+    couponDiscount,
+    couponType,
+    total_amount,
+    grand_total,
+    shipping_cost,
+    est_delivery_date,
+  } = req.body;
+
+  if (
+    !customer_id &&
+    !currency_id &&
+    !grand_total &&
+    !total_amount &&
+    !payment_method
+  ) {
+    return res
+      .status(httpStatus.OK)
+      .send({ status: false, msg: 'Invalid parameters in request' });
+  }
+  console.log('Have parameters');
+
+  Order.countDocuments({}, function (err, count) {
+    //Save to Mongo
+    Order.create(
+      {
+        order_id: count + 1,
+        customer_id: customer_id,
+        currency_id: currency_id,
+        orderItems: orderItems,
+        pfirst_name: pfirst_name,
+        plast_name: plast_name,
+        pcompany: pcompany,
+        paddress1: paddress1,
+        paddress2: paddress2,
+        pcity: pcity,
+        ppost_code: ppost_code,
+        pcountry_id: pcountry_id,
+        sfirst_name: sfirst_name,
+        slast_name: slast_name,
+        scompany: scompany,
+        saddress1: saddress1,
+        saddress2: saddress2,
+        scity: scity,
+        spost_code: spost_code,
+        scountry_id: scountry_id,
+        total_amount: total_amount,
+        payment_method: payment_method,
+        order_statuses_id: order_statuses_id,
+
+        comment: comment,
+        coupon_id: coupon_id,
+        coupon: coupon,
+        grand_total: grand_total,
+        couponDiscount: couponDiscount,
+        couponType: couponType,
+        est_delivery_date: est_delivery_date,
+        shipping_cost: shipping_cost,
+      },
+      function (error, inserted) {
+        if (error) {
+          const message = `Server error: ${error.message}`;
+          console.log(message);
+          return res
+            .status(httpStatus.OK)
+            .send({ status: false, msg: message });
+        }
+        //update product stock
+        for (let p = 0; p < orderItems.length; p++) {
+          Product.findByIdAndUpdate(
+            orderItems[p]._id,
+            { $inc: { quantity: -orderItems[p].quantity } },
+            { new: false },
+            function (err, data) {
+              console.log('update product stock error => ', err);
+              if (err)
+                return res
+                  .status(httpStatus.OK)
+                  .send({ status: false, msg: 'Failed To Update' });
+            }
+          );
+        }
+        console.log('all done');
+        res
+          .status(httpStatus.OK)
+          .send({ status: true, msg: 'Data Added Successfully!' });
+      }
+    );
+  });
+});
+
 module.exports = router;
