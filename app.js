@@ -55,6 +55,10 @@ app.use('/api/v1/shop', productController);
 const checkoutController = require('controllers/shop/checkoutController');
 app.use('/api/v1/payment', checkoutController);
 
+/* Mail sender */
+const mailController = require('controllers/mailController');
+app.use('/api/v1/mail', mailController);
+
 //Without gZip
 //join public path
 app.use(express.static(path.join(__dirname, 'public')));

@@ -25,12 +25,14 @@ const productSchema = new Schema(
       type: Number,
       required: true,
     },
+    sold_individual: {
+      type: Boolean
+    },
     tax_id: {
       type: mongoose.Schema.Types.ObjectId,
     },
     model: {
-      type: String,
-      trim: true,
+      type: Number,
       required: true,
     },
     size_id: {
