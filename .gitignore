@@ -6,3 +6,5 @@
 # IDE related
 .idea
 .DS_Store
+
+.env

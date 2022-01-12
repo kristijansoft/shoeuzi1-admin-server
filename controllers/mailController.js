@@ -19,14 +19,14 @@ const transporter = nodemailer.createTransport({
 
 router.post('/send', [], async (req, res) => {
   console.log('mail sending =>')
+  const { toAddress, subject, html } = req.body
   try {
     const res = await transporter.sendMail({
       from: 'admin@byjldn.com',
-      to: 'yaroslav.bura7io@gmail.com',
-      subject: 'Test Email Subject',
-      html: '<h1>Shoeuzi. Example HTML Message Body</h1>'
+      to: toAddress,
+      subject: subject,
+      html: html
     });
-    console.log(res.data)
     res.status(httpStatus.OK).send({
       status: true,
       data: 'Sent',
