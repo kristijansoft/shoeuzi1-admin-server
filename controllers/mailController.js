@@ -22,7 +22,7 @@ router.post('/send', [], async (req, res) => {
   const { toAddress, subject, html } = req.body
   try {
     const res = await transporter.sendMail({
-      from: 'admin@byjldn.com',
+      from: 'noreply@shoeuzi.com',
       to: toAddress,
       subject: subject,
       html: html
