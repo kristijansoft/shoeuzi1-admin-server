@@ -21,7 +21,7 @@ router.post('/send', [], async (req, res) => {
   console.log('mail sending =>', req.body)
   const { toAddress, subject, html } = req.body
   try {
-    const res = await transporter.sendMail({
+    const response = await transporter.sendMail({
       from: 'noreply@shoeuzi.com',
       to: toAddress,
       subject: subject,
