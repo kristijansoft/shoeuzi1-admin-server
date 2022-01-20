@@ -18,7 +18,7 @@ const transporter = nodemailer.createTransport({
 });
 
 router.post('/send', [], async (req, res) => {
-  console.log('mail sending =>')
+  console.log('mail sending =>', req.body)
   const { toAddress, subject, html } = req.body
   try {
     const res = await transporter.sendMail({
@@ -27,7 +27,7 @@ router.post('/send', [], async (req, res) => {
       subject: subject,
       html: html
     });
-    res.status(httpStatus.OK).send({
+    return res.status(httpStatus.OK).send({
       status: true,
       data: 'Sent',
     });
