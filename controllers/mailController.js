@@ -18,42 +18,51 @@ const transporter = nodemailer.createTransport({
 });
 
 router.post('/send', [], async (req, res) => {
-  console.log('mail sending =>', req.body)
   const { toAddress, subject, html } = req.body
   try {
-    const response = await transporter.sendMail({
+    transporter.sendMail({
       from: 'noreply@shoeuzi.com',
       to: toAddress,
       subject: subject,
       html: html
-    });
-    return res.status(httpStatus.OK).send({
-      status: true,
-      data: 'Sent',
+    }, function(error, info) {
+      if (error) {
+        return res
+          .status(httpStatus.INTERNAL_SERVER_ERROR)
+          .send({ status: false, msg: `Server error: ${error.message}` });
+      }
+      return res.status(httpStatus.OK).send({
+        status: true,
+        data: info.response
+      });
     });
 
   } catch (error) {
-    console.log(error)
     return res
-      .status(httpStatus.OK)
+      .status(httpStatus.INTERNAL_SERVER_ERROR)
       .send({ status: false, msg: `Server error: ${error.message}` });
   }
 })
 
 router.post('/send-by-sendgrid', [], async (req, res) => {
+  const { toAddress, subject, html, text } = req.body
   try {
     const msg = {
-      to: 'yaroslav.bura7io@gmail.com', // Change to your recipient
-      from: 'admin@byjldn.com', // Change to your verified sender
-      subject: 'Sending with SendGrid is Fun',
-      text: 'and easy to do anywhere, even with Node.js',
-      html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+      to: toAddress,
+      from: 'noreply@shoeuzi.com',
+      subject: subject,
+      text: text,
+      html: html,
     }
     sgMail
       .send(msg)
       .then((response) => {
         console.log(response[0].statusCode)
         console.log(response[0].headers)
+        return res.status(httpStatus.OK).send({
+          status: true,
+          data: 'Sent',
+        });
       })
       .catch((error) => {
         console.error(error)
@@ -61,7 +70,7 @@ router.post('/send-by-sendgrid', [], async (req, res) => {
     
   } catch (error) {
     console.log('error', error);
-    res.json({
+    return res.json({
       message: 'Payment Failed',
       success: false,
     });
