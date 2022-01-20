@@ -21,7 +21,7 @@ router.post('/send', [], async (req, res) => {
   const { toAddress, subject, html } = req.body
   try {
     transporter.sendMail({
-      from: 'noreply@shoeuzi.com',
+      from: process.env.SENDGRID_FROM_EMAIL,
       to: toAddress,
       subject: subject,
       html: html
@@ -49,7 +49,7 @@ router.post('/send-by-sendgrid', [], async (req, res) => {
   try {
     const msg = {
       to: toAddress,
-      from: 'noreply@shoeuzi.com',
+      from: process.env.SENDGRID_FROM_EMAIL,
       subject: subject,
       text: text,
       html: html,
