@@ -21,6 +21,18 @@ const productSchema = new Schema(
       type: Number,
       required: true,
     },
+    price_for_GBP: {
+      type: Number,
+      required: true
+    },
+    price_for_SEK: {
+      type: Number,
+      required: true
+    },
+    price_for_EUR: {
+      type: Number,
+      required: true
+    },
     quantity: {
       type: Number,
       required: true,

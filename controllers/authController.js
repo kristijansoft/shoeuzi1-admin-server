@@ -86,6 +86,33 @@ router.post('/customerLogin', function (req, res) {
     }
   });
 });
+
+router.post('/customerSignup', function (req, res) {
+  //find user
+  Customer.find({}, function (error, user) {
+    if (error) {
+      const message = `Server error: ${error.message}`;
+      return res.status(httpStatus.OK).send({ status: false, msg: message });
+    } else {
+      if (user.length < 1) {
+          const hashedPassword = bcrypt.hashSync(req.password, 8);
+          Customer.create(
+            {
+              name: 'Super Admin',
+              email: 'superadmin@mail.com',
+              password: hashedPassword,
+              role_id: inserted._id,
+            },
+            function () {
+              return res
+                .status(httpStatus.OK)
+                .send({ status: true, msg: 'User Created' });
+            }
+          );
+      }
+    }
+  });
+});
 /* End Customer Authentication */
 
 //login user api
